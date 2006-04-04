@@ -2,10 +2,9 @@ package WWW::Blog::Metadata::Yadis;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use WWW::Blog::Metadata;
-use URI;
 
 WWW::Blog::Metadata->mk_accessors(qw( xrds_location ));
 
@@ -16,7 +15,7 @@ sub on_got_tag {
         my %head = map { $_ => 1 } split /\s+/, lc $attr->{'http-equiv'};
         for my $srv (qw( yadis xrds )) {
             if ($head{"x-${srv}-location"}) {
-                $meta->xrds_location(URI->new_abs($attr->{content}, $base_uri)->as_string);
+                $meta->xrds_location($attr->{content});
             }
         }
     }
